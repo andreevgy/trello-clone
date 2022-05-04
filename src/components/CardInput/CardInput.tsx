@@ -1,4 +1,4 @@
-import React, {FormEvent, useCallback, useId, useState} from "react";
+import React, {FormEvent, useId, useState} from "react";
 import styles from './CardInput.module.scss';
 
 interface CardInputProps {
@@ -15,12 +15,12 @@ const CardInput: React.FC<CardInputProps> = (props) => {
   const nameId = useId();
   const contentId = useId();
 
-  const onSubmit = useCallback((e: FormEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSave(name, content);
     setName('')
     setContent('');
-  }, [name, content, onSave]);
+  };
 
   return <form onSubmit={onSubmit} className={styles.cardInput}>
     <b>{label}</b>

@@ -1,4 +1,4 @@
-import React, {FormEvent, useCallback, useId, useState} from "react";
+import React, {FormEvent, useId, useState} from "react";
 import styles from './ColumnInput.module.scss';
 
 interface ColumnInputProps {
@@ -12,11 +12,11 @@ const ColumnInput: React.FC<ColumnInputProps> = (props) => {
   const [value, setValue] = useState(defaultName);
   const id = useId();
 
-  const onSubmit = useCallback((e: FormEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSave(value);
     setValue('');
-  }, [value, onSave]);
+  };
 
   return <form onSubmit={onSubmit} className={styles.columnInput}>
     <label htmlFor={id}>{label}</label>

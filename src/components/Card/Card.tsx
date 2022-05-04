@@ -1,8 +1,7 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useCardsContext, getCardById} from "../../utils/cardsContext";
+import React, {useMemo, useState} from 'react';
 import styles from './Card.module.scss';
 import CardInput from "../CardInput";
-import {useColumnContext} from "../../utils/columnsContext";
+import {useBoardContext} from "../../utils/boardContext";
 
 export interface CardType {
   id: string;
@@ -15,17 +14,18 @@ interface CardProps {
   columnId: string;
 }
 
+const fallbackCard = { name: "ERROR", content: "Card info not found, delete it?" };
+
+export const getCardById = (cardId: string, cards: CardType[]) => {
+  const foundCard = cards.find(c => c.id === cardId);
+  return foundCard ?? fallbackCard
+}
+
 const Card: React.FC<CardProps> = ({ cardId, columnId }) => {
-  const { cards, changeCardData, moveCardBetweenColumns } = useCardsContext();
+  const { cards, columns, changeCardData, moveCardBetweenColumns } = useBoardContext();
   const [isEditingActive, setIsEditingActive] = useState(false);
   const [isMovingDropdownActive, setIsMovingDropdownActive] = useState(false);
   const card = getCardById(cardId, cards);
-  const { columns } = useColumnContext();
-
-  const onEdit = useCallback((name: string, content: string) => {
-    changeCardData(cardId, name, content);
-    setIsEditingActive(false);
-  }, [changeCardData, cardId]);
 
   const colsToMove = useMemo(() => {
     return columns
@@ -33,10 +33,15 @@ const Card: React.FC<CardProps> = ({ cardId, columnId }) => {
       .map(c => ({ name: c.name, id: c.id }));
   }, [columns, columnId])
 
-  const onMove = useCallback((newColId: string) => {
+  const onEdit = (name: string, content: string) => {
+    changeCardData(cardId, name, content);
+    setIsEditingActive(false);
+  };
+
+  const onMove =(newColId: string) => {
     setIsMovingDropdownActive(false);
     moveCardBetweenColumns(cardId, columnId, newColId);
-  }, [columnId, cardId, moveCardBetweenColumns]);
+  };
 
   if (isEditingActive) {
     return <div className={styles.card}>
