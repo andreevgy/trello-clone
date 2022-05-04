@@ -2,6 +2,7 @@ import React, {useMemo, useState} from 'react';
 import styles from './Card.module.scss';
 import CardInput from "../CardInput";
 import {useBoardContext} from "../../utils/boardContext";
+import {useDragContext} from "../../utils/dragContext";
 
 export interface CardType {
   id: string;
@@ -25,6 +26,7 @@ const Card: React.FC<CardProps> = ({ cardId, columnId }) => {
   const { cards, columns, changeCardData, moveCardBetweenColumns, removeCard } = useBoardContext();
   const [isEditingActive, setIsEditingActive] = useState(false);
   const [isMovingDropdownActive, setIsMovingDropdownActive] = useState(false);
+  const { dragId } = useDragContext();
   const card = getCardById(cardId, cards);
 
   const colsToMove = useMemo(() => {
@@ -49,7 +51,7 @@ const Card: React.FC<CardProps> = ({ cardId, columnId }) => {
     </div>
   }
 
-  return <div className={styles.card}>
+  return <div className={styles.card} draggable onDragEnd={() => moveCardBetweenColumns(cardId, columnId, dragId!)}>
     <b className={styles.title}>{ card.name }</b>
     <p className={styles.content}>{ card.content }</p>
     <button onClick={() => setIsEditingActive(true)}>Edit card</button>

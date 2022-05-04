@@ -3,6 +3,7 @@ import Card from "../Card";
 import styles from './Column.module.scss';
 import ColumnInput from "../ColumnInput";
 import CardInput from "../CardInput";
+import {useDragContext} from "../../utils/dragContext";
 
 export interface ColumnType {
   id: string;
@@ -21,6 +22,7 @@ const Column: React.FC<ColumnProps> = (props) => {
   const {column, changeColumnName, addCard, deleteColumn} = props;
   const [isEditing, setIsEditing] = useState(false);
   const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
+  const { dragId, setDragId } = useDragContext();
 
   const onEdit = (newName: string) => {
     changeColumnName(column.id, newName);
@@ -36,7 +38,7 @@ const Column: React.FC<ColumnProps> = (props) => {
     deleteColumn(column.id);
   };
 
-  return <div className={styles.column}>
+  return <div className={`${styles.column} ${dragId === column.id && styles.columnDrag}`} onDragOver={() => setDragId(column.id)} onDragEnd={() => setDragId(null)}>
     {!isEditing
       ? <h4 className={styles.name} onClick={() => setIsEditing(true)}>{column.name}</h4>
       : <ColumnInput onSave={onEdit} defaultName={column.name} label="Editing column" />
