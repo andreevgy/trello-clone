@@ -3,15 +3,16 @@ import _ from 'lodash';
 import logo from './logo.svg';
 import './App.css';
 import { CardType } from "./Card";
-import {ColumnType} from "./Column";
+import Column, {ColumnType} from "./Column";
+import {CardsContext} from "./utils/cardsContext";
 
 const generateRandomString = () => {
   return Math.round(Math.random() * 1000).toString();
 }
 
 function App() {
-  const [columns, setColumns] = useState<ColumnType[]>([]);
-  const [cards, setCards] = useState<CardType[]>([]);
+  const [columns, setColumns] = useState<ColumnType[]>([{ id: "1", name: "testColumn", cards: ["1"] }]);
+  const [cards, setCards] = useState<CardType[]>([{ id: "1", content: "testContent", name: "testCardName" }]);
 
   const generateNewColumnId = useCallback(() => {
     const id = generateRandomString();
@@ -90,20 +91,9 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CardsContext.Provider value={{ cards, removeCard, moveCardBetweenColumns }}>
+        {columns.map(column => <Column column={column} key={column.id} />)}
+      </CardsContext.Provider>
     </div>
   );
 }
