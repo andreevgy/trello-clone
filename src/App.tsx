@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from 'react';
-import './App.css';
 import styles from './App.module.scss';
 import Column from "./components/Column";
 import ColumnInput from "./components/ColumnInput";
