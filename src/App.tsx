@@ -6,6 +6,7 @@ import { CardType } from "./components/Card";
 import Column, {ColumnType} from "./components/Column";
 import {CardsContext} from "./utils/cardsContext";
 import ColumnInput from "./components/ColumnInput";
+import {ColumnsContext} from "./utils/columnsContext";
 
 const generateRandomString = () => {
   return Math.round(Math.random() * 1000).toString();
@@ -92,15 +93,17 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <CardsContext.Provider value={{ cards, removeCard, moveCardBetweenColumns, changeCardData }}>
-        {columns.map(column => <Column
-          key={column.id}
-          column={column}
-          changeColumnName={changeColumnName}
-          addCard={addCard}
-        />)}
-        <ColumnInput onSave={addColumn} />
+      <ColumnsContext.Provider value={{ columns }}>
+        <CardsContext.Provider value={{ cards, removeCard, moveCardBetweenColumns, changeCardData }}>
+          {columns.map(column => <Column
+            key={column.id}
+            column={column}
+            changeColumnName={changeColumnName}
+            addCard={addCard}
+          />)}
+          <ColumnInput onSave={addColumn} />
       </CardsContext.Provider>
+      </ColumnsContext.Provider>
     </div>
   );
 }

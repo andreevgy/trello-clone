@@ -1,4 +1,5 @@
 import React, {FormEvent, useCallback, useId, useState} from "react";
+import styles from './CardInput.module.scss';
 
 interface CardInputProps {
   defaultName?: string;
@@ -21,7 +22,7 @@ const CardInput: React.FC<CardInputProps> = (props) => {
     setContent('');
   }, [name, content, onSave]);
 
-  return <form onSubmit={onSubmit}>
+  return <form onSubmit={onSubmit} className={styles.cardInput}>
     <b>{label}</b>
     <label htmlFor={nameId}>Card name</label>
     <input id={nameId} value={name} onChange={e => setName(e.target.value)} />

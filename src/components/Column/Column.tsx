@@ -36,9 +36,9 @@ const Column: React.FC<ColumnProps> = (props) => {
       ? <h4 onClick={() => setIsEditing(true)}>{column.name}</h4>
       : <ColumnInput onSave={onEdit} defaultName={column.name} label="Edit column" />
     }
-    {!isEditing && <div onClick={() => setIsEditing(true)}>Edit card</div>}
+    {!isEditing && <div onClick={() => setIsEditing(true)}>Edit column</div>}
     <div>
-      {column.cards.map(c => <Card cardId={c} key={c}/>)}
+      {column.cards.map(c => <Card cardId={c} columnId={column.id} key={c}/>)}
     </div>
     {!isCreateCardOpen && <button onClick={() => setIsCreateCardOpen(true)}>Add card</button>}
     {isCreateCardOpen && <CardInput onSave={onCardCreation} />}
