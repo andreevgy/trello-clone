@@ -1,6 +1,6 @@
 # Simple Trello clone
 
-## Features:
+## Features
 
 * Create/update/delete columns
 * Create/update/delete cards
@@ -20,3 +20,10 @@ To build production version
 ```shell
 npm run build
 ```
+
+## TODO
+* Multiple boards
+* Better design, ability to change it
+* Enhanced drag and drop
+* Pop-up with rich text editor for cards
+* Backend integration + authentication
