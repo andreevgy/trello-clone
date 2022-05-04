@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {CardType} from "../Card";
+import {CardType} from "../components/Card";
 
 interface CardsContextType {
   cards: CardType[];

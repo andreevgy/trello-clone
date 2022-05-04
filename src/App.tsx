@@ -1,10 +1,11 @@
 import React, {useCallback, useState} from 'react';
 import _ from 'lodash';
-import logo from './logo.svg';
 import './App.css';
-import { CardType } from "./Card";
-import Column, {ColumnType} from "./Column";
+import styles from './App.module.scss';
+import { CardType } from "./components/Card";
+import Column, {ColumnType} from "./components/Column";
 import {CardsContext} from "./utils/cardsContext";
+import ColumnInput from "./components/ColumnInput";
 
 const generateRandomString = () => {
   return Math.round(Math.random() * 1000).toString();
@@ -90,9 +91,10 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className={styles.app}>
       <CardsContext.Provider value={{ cards, removeCard, moveCardBetweenColumns }}>
-        {columns.map(column => <Column column={column} key={column.id} />)}
+        {columns.map(column => <Column column={column} key={column.id} changeColumnName={changeColumnName} />)}
+        <ColumnInput onSave={addColumn} />
       </CardsContext.Provider>
     </div>
   );
