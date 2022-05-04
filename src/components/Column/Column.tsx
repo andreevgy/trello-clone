@@ -38,16 +38,16 @@ const Column: React.FC<ColumnProps> = (props) => {
 
   return <div className={styles.column}>
     {!isEditing
-      ? <h4 onClick={() => setIsEditing(true)}>{column.name}</h4>
-      : <ColumnInput onSave={onEdit} defaultName={column.name} label="Edit column" />
+      ? <h4 className={styles.name} onClick={() => setIsEditing(true)}>{column.name}</h4>
+      : <ColumnInput onSave={onEdit} defaultName={column.name} label="Editing column" />
     }
-    {!isEditing && <button onClick={() => setIsEditing(true)}>Edit column</button>}
-    <div>
-      {column.cards.map(c => <Card cardId={c} columnId={column.id} key={c}/>)}
-    </div>
+    {!isEditing && <button className={styles.editButton} onClick={() => setIsEditing(true)}>Edit column</button>}
     <button onClick={onDelete}>Delete column</button>
     {!isCreateCardOpen && <button onClick={() => setIsCreateCardOpen(true)}>Add card</button>}
     {isCreateCardOpen && <CardInput onSave={onCardCreation} />}
+    <div>
+      {column.cards.map(c => <Card cardId={c} columnId={column.id} key={c}/>)}
+    </div>
   </div>
 }
 

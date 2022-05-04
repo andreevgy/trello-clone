@@ -9,7 +9,7 @@ interface CardInputProps {
 }
 
 const CardInput: React.FC<CardInputProps> = (props) => {
-  const { onSave, defaultName = '', defaultContent = '', label = 'Create card' } = props
+  const { onSave, defaultName = '', defaultContent = '', label = 'Creating card' } = props
   const [name, setName] = useState(defaultName);
   const [content, setContent] = useState(defaultContent);
   const nameId = useId();

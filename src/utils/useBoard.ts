@@ -24,11 +24,23 @@ export const useBoard = () => {
   useEffect(() => {
     const columnsStorage = localStorage.getItem('columns');
     if (columnsStorage) {
-      setColumns(JSON.parse(columnsStorage));
+      try {
+        const data = JSON.parse(columnsStorage);
+        if (!_.isArray(data)) throw Error();
+        setColumns(data);
+      } catch (e) {
+        console.error("Can't parse columns data from localStorage");
+      }
     }
     const cardsStorage = localStorage.getItem('cards');
     if (cardsStorage) {
-      setCards(JSON.parse(cardsStorage));
+      try {
+        const data = JSON.parse(cardsStorage);
+        if (!_.isArray(data)) throw Error();
+        setCards(data);
+      } catch (e) {
+        console.error("Can't parse cards data from localStorage");
+      }
     }
     setIsLocalStorageLoaded(true);
   }, []);

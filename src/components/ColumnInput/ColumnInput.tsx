@@ -8,7 +8,7 @@ interface ColumnInputProps {
 }
 
 const ColumnInput: React.FC<ColumnInputProps> = (props) => {
-  const { onSave, label = 'Create column', defaultName = '' } = props;
+  const { onSave, label = 'Creating column', defaultName = '' } = props;
   const [value, setValue] = useState(defaultName);
   const id = useId();
 
@@ -19,7 +19,7 @@ const ColumnInput: React.FC<ColumnInputProps> = (props) => {
   };
 
   return <form onSubmit={onSubmit} className={styles.columnInput}>
-    <label htmlFor={id}>{label}</label>
+    <label className={styles.title} htmlFor={id}><b>{label}</b></label>
     <input id={id} value={value} onChange={e => setValue(e.target.value)} />
     <button type="submit">Save</button>
   </form>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import './App.css';
 import styles from './App.module.scss';
 import Column from "./components/Column";
@@ -8,6 +8,12 @@ import {BoardContext} from "./utils/boardContext";
 
 function App() {
   const board = useBoard();
+  const [isCreateNewOpen, setIsCreateNewOpen] = useState(false);
+
+  const onCreate = useCallback((name: string) => {
+    board.addColumn(name);
+    setIsCreateNewOpen(false);
+  }, [board]);
 
   return (
     <div className={styles.app}>
@@ -19,7 +25,8 @@ function App() {
           addCard={board.addCard}
           deleteColumn={board.removeColumn}
         />)}
-        <ColumnInput onSave={board.addColumn}/>
+        {isCreateNewOpen && <ColumnInput onSave={onCreate}/>}
+        {!isCreateNewOpen && <div className={styles.newButtonWrapper}><button onClick={() => setIsCreateNewOpen(true)}>Create new column</button></div>}
       </BoardContext.Provider>
     </div>
   );

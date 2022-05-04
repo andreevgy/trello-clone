@@ -22,7 +22,7 @@ export const getCardById = (cardId: string, cards: CardType[]) => {
 }
 
 const Card: React.FC<CardProps> = ({ cardId, columnId }) => {
-  const { cards, columns, changeCardData, moveCardBetweenColumns } = useBoardContext();
+  const { cards, columns, changeCardData, moveCardBetweenColumns, removeCard } = useBoardContext();
   const [isEditingActive, setIsEditingActive] = useState(false);
   const [isMovingDropdownActive, setIsMovingDropdownActive] = useState(false);
   const card = getCardById(cardId, cards);
@@ -45,22 +45,26 @@ const Card: React.FC<CardProps> = ({ cardId, columnId }) => {
 
   if (isEditingActive) {
     return <div className={styles.card}>
-      <CardInput onSave={onEdit} defaultName={card.name} defaultContent={card.content} label="Edit card" />
+      <CardInput onSave={onEdit} defaultName={card.name} defaultContent={card.content} label="Editing card" />
     </div>
   }
 
   return <div className={styles.card}>
-    <b>{ card.name }</b>
-    <p>{ card.content }</p>
+    <b className={styles.title}>{ card.name }</b>
+    <p className={styles.content}>{ card.content }</p>
     <button onClick={() => setIsEditingActive(true)}>Edit card</button>
-    {!!colsToMove.length && <button onClick={() => setIsMovingDropdownActive(v => !v)}>Move card</button>}
-    {isMovingDropdownActive && <div>
-      {
-        colsToMove.map(c => <div key={c.id} onClick={() => onMove(c.id)}>
-          {c.name}
-        </div>)
-      }
-    </div>}
+    <button onClick={() => removeCard(cardId, columnId)}>Delete card</button>
+    <div className={styles.moveDropdownRoot}>
+      {!!colsToMove.length && <button onClick={() => setIsMovingDropdownActive(v => !v)}>Move card</button>}
+      {isMovingDropdownActive && <div className={styles.moveDropdownContent}>
+        {
+          colsToMove.map(c => <div key={c.id} onClick={() => onMove(c.id)} className={styles.moveItem}>
+            {c.name}
+          </div>)
+        }
+			</div>}
+    </div>
+
   </div>
 }
 
