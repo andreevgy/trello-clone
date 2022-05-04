@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import _ from 'lodash';
 import './App.css';
 import styles from './App.module.scss';
@@ -13,8 +13,33 @@ const generateRandomString = () => {
 }
 
 function App() {
-  const [columns, setColumns] = useState<ColumnType[]>([{ id: "1", name: "testColumn", cards: ["1"] }]);
-  const [cards, setCards] = useState<CardType[]>([{ id: "1", content: "testContent", name: "testCardName" }]);
+  const [columns, setColumns] = useState<ColumnType[]>([]);
+  const [cards, setCards] = useState<CardType[]>([]);
+  const [isLocalStorageLoaded, setIsLocalStorageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (isLocalStorageLoaded) {
+      localStorage.setItem('cards', JSON.stringify(cards));
+    }
+  }, [cards, isLocalStorageLoaded]);
+
+  useEffect(() => {
+    if (isLocalStorageLoaded) {
+      localStorage.setItem('columns', JSON.stringify(columns));
+    }
+  }, [columns, isLocalStorageLoaded]);
+
+  useEffect(() => {
+    const columnsStorage = localStorage.getItem('columns');
+    if (columnsStorage) {
+      setColumns(JSON.parse(columnsStorage));
+    }
+    const cardsStorage = localStorage.getItem('cards');
+    if (cardsStorage) {
+      setCards(JSON.parse(cardsStorage));
+    }
+    setIsLocalStorageLoaded(true);
+  }, []);
 
   const generateNewColumnId = useCallback(() => {
     const id = generateRandomString();
