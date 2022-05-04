@@ -5,12 +5,14 @@ interface CardsContextType {
   cards: CardType[];
   removeCard: (cardId: string, columnId: string) => void;
   moveCardBetweenColumns: (cardId: string, oldColumnId: string, newColumnId: string) => void;
+  changeCardData: (id: string, newName: string, newContent: string) => void;
 }
 
 export const CardsContext = React.createContext<CardsContextType>({
   cards: [],
   removeCard: () => {},
   moveCardBetweenColumns: () => {},
+  changeCardData: () => {},
 });
 
 export const useCardsContext = () => useContext(CardsContext);

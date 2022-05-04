@@ -40,7 +40,7 @@ function App() {
   const addCardToColumn = useCallback((cardId: string, columnId: string) => {
     setColumns(cols => cols.map(c => {
       if (c.id !== columnId) return {...c};
-      return { ...c, cards: [...c.cards, columnId] };
+      return { ...c, cards: [...c.cards, cardId] };
     }))
   }, []);
 
@@ -92,8 +92,13 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <CardsContext.Provider value={{ cards, removeCard, moveCardBetweenColumns }}>
-        {columns.map(column => <Column column={column} key={column.id} changeColumnName={changeColumnName} />)}
+      <CardsContext.Provider value={{ cards, removeCard, moveCardBetweenColumns, changeCardData }}>
+        {columns.map(column => <Column
+          key={column.id}
+          column={column}
+          changeColumnName={changeColumnName}
+          addCard={addCard}
+        />)}
         <ColumnInput onSave={addColumn} />
       </CardsContext.Provider>
     </div>
